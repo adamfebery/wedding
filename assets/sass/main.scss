@@ -80,12 +80,12 @@
 
 /* Intro 2 */
 	#intro2 {
-	background: url('images/intro.png'), url('../../images/intro.jpg');
-	background-size: 256px 256px, cover;
-	background-attachment: fixed, fixed;
-	background-position: top left, bottom center;
-	background-repeat: repeat, no-repeat;
-}
+	background-image: url('images/intro.png'); /* Use only one url() for the background image */
+	background-size: cover; /* Cover the entire area */
+	background-attachment: fixed; 
+	background-position: center; /* Center the image */
+	background-repeat: no-repeat; 
+  }
 
 /* Contact */
 
