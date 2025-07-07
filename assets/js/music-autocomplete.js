@@ -5,26 +5,8 @@
  * as a user types in the playlist request form.
 */
 $(function() {
-
-    // =========================================================================
-    // IMPORTANT: NEXT STEPS
-    // =========================================================================
-    // 1. Go to the Spotify Developer Dashboard: https://developer.spotify.com/dashboard/
-    // 2. Create a new App to get a Client ID and a Client Secret.
-    // 3. Because you cannot safely store a Client Secret in frontend JavaScript,
-    //    you will need a small backend or serverless function to exchange your
-    //    credentials for an access token.
-    //
-    //    For a static site, a Netlify Function, Vercel Function, or similar
-    //    is a perfect, free solution for this.
-    //
-    // 4. This function will make a POST request to:
-    //    `https://accounts.spotify.com/api/token`
-    //    with `grant_type=client_credentials`
-    //    and your `Authorization: Basic <base64_encoded_client_id:client_secret>` header.
-    //
-    // 5. Your serverless function should return just the `access_token` from Spotify's response.
-    // =========================================================================
+    // This script requires SPOTIFY_CLIENT_ID and SPOTIFY_CLIENT_SECRET to be set
+    // in the Azure Static Web App's Application Settings.
 
     const TOKEN_URL = '/api/spotify-token'; // URL to your new backend endpoint
     let spotifyAccessToken = null;
@@ -40,11 +22,20 @@ $(function() {
 
         try {
             const response = await fetch(TOKEN_URL);
-            if (!response.ok) {
-                const errorBody = await response.json();
-                throw new Error(`Token request failed: ${errorBody.error}`);
+            const contentType = response.headers.get("content-type");
+
+            // If the response is not OK or not JSON, we can't parse it.
+            // This handles both true 404s and HTML fallback pages.
+            if (!response.ok || !contentType || !contentType.includes("application/json")) {
+                const text = await response.text();
+                throw new Error(`Server did not return valid JSON. Status: ${response.status}. Response: ${text.substring(0, 100)}...`);
             }
+
             const data = await response.json();
+            if (data.error) {
+                throw new Error(`API returned an error: ${data.error}`);
+            }
+
             spotifyAccessToken = data.access_token;
             return spotifyAccessToken;
 
