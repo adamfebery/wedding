@@ -50,54 +50,45 @@
 	@import 'layout/main';
 	@import 'layout/footer';
 
-/* Intro */
+/* Reusable Background Mixin */
 
-	#intro {
-		background: url('images/overlay.png'), url('../../images/intro.jpg');
+	@mixin full-bg($img) {
+		background: url('images/overlay.png'), url('../../images/#{$img}');
 		background-size: 256px 256px, cover;
 		background-attachment: fixed, fixed;
 		background-position: top left, bottom center;
 		background-repeat: repeat, no-repeat;
+	}
+
+/* Intro */
+
+	#intro { @include full-bg('intro.jpg'); }
+
+	// Override for the evening invitation page
+	.evening-invite #intro {
+		@include full-bg('evening.png');
 	}
 
 /* One */
 
-	#one {
-		background: url("images/overlay.png"), url("../../images/one.jpg");
-		background-size: 256px 256px, cover;
-		background-attachment: fixed, fixed;
-		background-position: top left, bottom center;
-		background-repeat: repeat, no-repeat;
-	}
+	#one { @include full-bg('one.jpg'); }
 
 /* Two */
 
-	#two {
-		background: url('images/overlay.png'), url('../../images/two.jpg');
-		background-size: 256px 256px, cover;
-		background-attachment: fixed, fixed;
-		background-position: top left, bottom center;
-		background-repeat: repeat, no-repeat;
-	}
+	#two { @include full-bg('two.jpg'); }
 
 /* Three */
 
-#three {
-	background: url('images/overlay.png'), url('../../images/three.jpg');
-	background-size: 256px 256px, cover;
-	background-attachment: fixed, fixed;
-	background-position: top left, bottom center;
-	background-repeat: repeat, no-repeat;
-}
+	#three { @include full-bg('three.jpg'); }
 
 /* Intro 2 */
 	#intro2 {
-	background-image: url('images/intro.png'); /* Use only one url() for the background image */
-	background-size: cover; /* Cover the entire area */
-	background-attachment: fixed; 
-	background-position: center; /* Center the image */
-	background-repeat: no-repeat; 
-  }
+		background-image: url('../../images/intro2.jpg');
+		background-size: cover;
+		background-attachment: fixed;
+		background-position: center;
+		background-repeat: no-repeat;
+	}
 
 /* Contact */
 
